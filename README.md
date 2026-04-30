@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PixelMind AI
 
-## Getting Started
+A professional, full-stack AI-powered image editor built with **Next.js 14** and a **Python FastAPI** backend running on Google Colab (free GPU).
 
-First, run the development server:
+## Features
+
+| Operation | Model | Time |
+|-----------|-------|------|
+| Remove Object/Person | Stable Diffusion Inpainting | ~25s |
+| Style Transfer | Stable Diffusion Img2Img | ~35s |
+| Face Restoration | GFPGAN | ~15s |
+| Image Upscale 2×/4× | Real-ESRGAN | ~12s |
+| Remove Background | GrabCut / remove.bg | ~5s |
+| Color Enhancement | PIL/OpenCV | <2s |
+| Text-to-Edit | Stable Diffusion Img2Img | ~30s |
+
+## Prerequisites
+
+- Node.js 18+
+- Google account (for Colab)
+- (Optional) [remove.bg](https://remove.bg) API key
+
+## Quick Start
+
+### 1. Install frontend
+
+```bash
+cd pixelmind-ai
+npm install
+```
+
+### 2. Set up environment
+
+```bash
+cp .env.example .env.local
+# Edit .env.local — add REMOVEBG_API_KEY if you have one
+```
+
+### 3. Start Colab backend
+
+See [SETUP_COLAB.md](./SETUP_COLAB.md) for full instructions.
+
+### 4. Run the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5. Connect backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Paste the ngrok URL from Colab into the sidebar "Backend (Colab)" field
+- Click **Test** to verify connection
+- Start editing!
 
-## Learn More
+## Folder Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+pixelmind-ai/
+├── app/               ← Next.js App Router pages + API routes
+├── components/        ← All UI — every component is a folder/index.tsx
+├── hooks/             ← Custom React hooks
+├── lib/               ← API calls, utils, constants
+├── store/             ← Zustand global state
+├── types/             ← TypeScript interfaces
+└── colab_backend.ipynb ← Python FastAPI backend (run in Google Colab)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS, Framer Motion
+- **State**: Zustand (with localStorage persistence)
+- **Backend**: Python FastAPI, ngrok tunnel
+- **AI Models**: Stable Diffusion 1.5, LaMa, GFPGAN, Real-ESRGAN
+- **GPU**: Google Colab T4 (free)
